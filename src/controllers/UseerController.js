@@ -13,7 +13,7 @@ module.exports = {
     }
   },
   async show(request, response) {
-    const { user_id } = request.body;
+    const { user_id } = request;
 
     try {
       const findUser = await User.findOne({ where: { id: user_id } });
@@ -22,5 +22,21 @@ module.exports = {
     } catch (err) {
       throw new Error(err.message);
     }
+  },
+  async update(request, response) {
+    const { user_id } = request;
+    const { name, email, password } = request.body;
+    let passwordhash;
+    if (password) {
+      passwordhash = await hash(password, 8);
+    }
+    await User.findOneAndUpdate(
+      { id: user_id },
+      { name, email, password: passwordhash },
+      {
+        new: true,
+      },
+    );
+    return response.status(200).json({ message: 'updated successfully' });
   },
 };
