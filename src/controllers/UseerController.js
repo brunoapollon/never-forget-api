@@ -12,4 +12,15 @@ module.exports = {
       return response.status(400).json({ error: err.message });
     }
   },
+  async show(request, response) {
+    const { user_id } = request.body;
+
+    try {
+      const findUser = await User.findOne({ where: { id: user_id } });
+
+      return response.status(200).json(findUser);
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  },
 };
