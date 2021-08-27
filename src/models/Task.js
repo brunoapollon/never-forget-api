@@ -19,6 +19,10 @@ const TaskSchema = new mongoose.Schema({
     type: Date,
     requiered: true,
   },
+  user_id: {
+    type: String,
+    requiered: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now(),
