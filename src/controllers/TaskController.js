@@ -13,5 +13,9 @@ module.exports = {
   },
   async index(request, response) {
     const { user_id } = request;
+    try {
+      const tasks = await Task.find({ user_id });
+      return response.status(200).json(tasks);
+    } catch (err) {}
   },
 };
