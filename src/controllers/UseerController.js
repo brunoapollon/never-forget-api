@@ -16,7 +16,7 @@ module.exports = {
     const { user_id } = request;
 
     try {
-      const findUser = await User.findOne({ where: { id: user_id } });
+      const findUser = await User.findOne({ id: user_id });
 
       return response.status(200).json(findUser);
     } catch (err) {

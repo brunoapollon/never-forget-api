@@ -12,9 +12,9 @@ module.exports = {
       throw new Error('Validation failed');
     }
 
-    const findUser = await User.findOne({ where: { email } }).select(
-      '+password',
-    );
+    const findUser = await User.findOne({ email: email })
+      .select('+password')
+      .exec();
 
     if (!findUser) {
       throw new Error('email or password does not match');
