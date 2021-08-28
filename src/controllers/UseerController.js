@@ -20,23 +20,27 @@ module.exports = {
 
       return response.status(200).json(findUser);
     } catch (err) {
-      throw new Error(err.message);
+      throw new Error('failed to show data');
     }
   },
   async update(request, response) {
     const { user_id } = request;
     const { name, email, password } = request.body;
-    let passwordhash;
-    if (password) {
-      passwordhash = await hash(password, 8);
+    try {
+      let passwordhash;
+      if (password) {
+        passwordhash = await hash(password, 8);
+      }
+      await User.findOneAndUpdate(
+        { id: user_id },
+        { name, email, password: passwordhash },
+        {
+          new: true,
+        },
+      );
+      return response.status(200).json({ message: 'updated successfully' });
+    } catch (err) {
+      throw new Error('failed to update');
     }
-    await User.findOneAndUpdate(
-      { id: user_id },
-      { name, email, password: passwordhash },
-      {
-        new: true,
-      },
-    );
-    return response.status(200).json({ message: 'updated successfully' });
   },
 };
