@@ -19,6 +19,10 @@ const NotificatoinSchema = new mongoose.Schema({
     type: String,
     requiered: true,
   },
+  task_id: {
+    type: String,
+    requiered: true,
+  },
   read: {
     type: Boolean,
     requiered: true,
