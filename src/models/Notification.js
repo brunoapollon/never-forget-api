@@ -26,6 +26,7 @@ const NotificatoinSchema = new mongoose.Schema({
   read: {
     type: Boolean,
     requiered: true,
+    default: false,
   },
   createdAt: {
     type: Date,
