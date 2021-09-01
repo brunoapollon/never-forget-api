@@ -98,6 +98,7 @@ module.exports = {
             },
           );
         }
+        tasks = await Task.find({ user_id });
         return task;
       });
 
