@@ -23,6 +23,10 @@ const TaskSchema = new mongoose.Schema({
     type: String,
     requiered: true,
   },
+  status: {
+    type: String,
+    requiered: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now(),

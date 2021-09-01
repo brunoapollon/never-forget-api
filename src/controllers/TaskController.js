@@ -5,9 +5,31 @@ module.exports = {
   async store(request, response) {
     const { title, description, deadline } = request.body;
     const { user_id } = request;
-
+    let status;
     try {
-      const task = await Task.create({ title, description, deadline, user_id });
+      const currentDate = new Date();
+
+      let difference = new Date(deadline).getTime() - currentDate.getTime();
+
+      difference = difference / (1000 * 60 * 60);
+
+      if (difference > 5) {
+        status = 'no urgency';
+      } else if (difference > 3) {
+        status = 'close';
+      } else if (difference > 0 && difference < 1) {
+        status = 'urgency';
+      } else if (difference <= 0) {
+        throw new Error('invalid date');
+      }
+
+      const task = await Task.create({
+        title,
+        description,
+        deadline,
+        user_id,
+        status,
+      });
 
       return response.status(200).json(task);
     } catch (err) {
@@ -20,7 +42,7 @@ module.exports = {
     try {
       let tasks = await Task.find({ user_id });
 
-      const tasksMap = tasks.map(async task => {
+      tasks.map(async task => {
         const taskWithNotification = await Notification.find({
           task_id: task.id,
         });
