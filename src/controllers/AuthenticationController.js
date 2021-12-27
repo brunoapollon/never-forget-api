@@ -25,14 +25,22 @@ module.exports = {
         throw new Error('email or password does not match');
       }
 
-      const sub = findUser.id.toString();
+      const user = {
+        id: findUser.id,
+        name: findUser.name,
+        email: findUser.email,
+        createdAt: findUser.createdAt,
+        updatedAt: findUser.updatedAt,
+      };
 
-      const token = sign({ id: findUser.id }, authConfig.jwt.secret, {
+      const sub = user.id;
+
+      const token = sign({ id: user.id }, authConfig.jwt.secret, {
         subject: sub,
         expiresIn: authConfig.jwt.expiresIn,
       });
 
-      return response.json({ token, user: findUser });
+      return response.json({ token, user });
     } catch (err) {
       throw new Error('failed to authentication');
     }
