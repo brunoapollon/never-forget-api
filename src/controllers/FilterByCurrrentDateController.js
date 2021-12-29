@@ -1,7 +1,7 @@
 const Task = require('../models/Task');
 
 module.exports = {
-  async show(request, response) {
+  async index(request, response) {
     const { user_id } = request;
 
     const currentDate = new Date();
