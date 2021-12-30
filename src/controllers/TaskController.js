@@ -1,4 +1,5 @@
 const Task = require('../models/Task');
+const { io } = require('../app');
 
 module.exports = {
   async store(request, response) {
@@ -29,6 +30,8 @@ module.exports = {
         user_id,
         status,
       });
+
+      io.emit('new_task', task);
 
       return response.status(200).json(task);
     } catch (err) {
