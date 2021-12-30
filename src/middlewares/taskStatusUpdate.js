@@ -1,5 +1,6 @@
 const Task = require('../models/Task');
 const Notification = require('../models/Notification');
+const { io } = require('../app');
 
 async function taskStatusUpdate(request, response, next) {
   const { user_id } = request;
@@ -45,13 +46,15 @@ async function taskStatusUpdate(request, response, next) {
         },
       );
       if (taskWithNotification.length >= 0)
-        await Notification.create({
+        const notification = await Notification.create({
           title: 'Tarefa com urgência',
           description:
             'Você tem atividades que estão perto de expirar, clique para vizualizar!',
           user_id: user_id,
           task_id: task.id,
         });
+
+        io.emit('new_notification', notification);
     } else if (difference <= 0) {
       await Task.collection.updateOne(
         { id: task.id },
