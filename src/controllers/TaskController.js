@@ -50,46 +50,7 @@ module.exports = {
     const { task_id } = request.params;
 
     try {
-      let findTask = await Task.findOne({ id: task_id });
-
-      const currentDate = new Date();
-
-      let difference = findTask.deadline.getTime() - currentDate.getTime();
-
-      difference = difference / (1000 * 60 * 60);
-
-      if (difference > 5) {
-        await Task.collection.updateOne(
-          { id: findTask.id },
-          {
-            $set: { status: 'no urgency' },
-            $currentDate: { updatedAt: true },
-          },
-        );
-      } else if (difference > 3) {
-        await Task.collection.updateOne(
-          { id: findTask.id },
-          { $set: { status: 'close' }, $currentDate: { updatedAt: true } },
-        );
-      } else if (difference > 0 && difference < 1) {
-        await Task.collection.updateOne(
-          { id: findTask.id },
-          {
-            $set: { status: 'urgency' },
-            $currentDate: { updatedAt: true },
-          },
-        );
-      } else if (difference <= 0) {
-        await Task.collection.updateOne(
-          { id: findTask.id },
-          {
-            $set: { status: 'expires' },
-            $currentDate: { updatedAt: true },
-          },
-        );
-      }
-
-      findTask = await Task.findOne({ id: task_id });
+      const findTask = await Task.findOne({ id: task_id });
 
       return response.status(200).json(findTask);
     } catch (err) {
