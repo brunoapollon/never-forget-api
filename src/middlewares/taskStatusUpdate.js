@@ -45,7 +45,7 @@ async function taskStatusUpdate(request, response, next) {
           $currentDate: { updatedAt: true },
         },
       );
-      if (taskWithNotification.length >= 0)
+      if (taskWithNotification.length >= 0) {
         const notification = await Notification.create({
           title: 'Tarefa com urgência',
           description:
@@ -55,6 +55,7 @@ async function taskStatusUpdate(request, response, next) {
         });
 
         io.emit('new_notification', notification);
+      }
     } else if (difference <= 0) {
       await Task.collection.updateOne(
         { id: task.id },
