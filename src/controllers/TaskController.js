@@ -1,7 +1,7 @@
-const Task = require('../models/Task');
-const { io } = require('../app');
+import { Task } from '../models/Task';
+import { io } from '../app';
 
-module.exports = {
+export default class TaskController {
   async store(request, response) {
     const { title, description, deadline } = request.body;
     const { user_id } = request;
@@ -11,7 +11,7 @@ module.exports = {
 
       let difference = new Date(deadline).getTime() - currentDate.getTime();
 
-      difference = difference / (1000 * 60 * 60);
+      difference /= 1000 * 60 * 60;
 
       if (difference > 5) {
         status = 'no urgency';
@@ -37,7 +37,8 @@ module.exports = {
     } catch (err) {
       throw new Error(err.message);
     }
-  },
+  }
+
   async index(request, response) {
     const { user_id } = request;
 
@@ -48,7 +49,8 @@ module.exports = {
     } catch (err) {
       throw new Error(err.message);
     }
-  },
+  }
+
   async show(request, response) {
     const { task_id } = request.params;
 
@@ -59,5 +61,5 @@ module.exports = {
     } catch (err) {
       throw new Error('task not found');
     }
-  },
-};
+  }
+}

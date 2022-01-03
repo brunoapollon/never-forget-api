@@ -1,7 +1,8 @@
-const { verify } = require('jsonwebtoken');
-const authConfig = require('../configs/authConfig');
+import { verify } from 'jsonwebtoken';
 
-function enduredAuthentication(request, response, next) {
+import authConfig from '../configs/authConfig';
+
+export default function enduredAuthentication(request, response, next) {
   const authToken = request.headers.authorization;
 
   if (!authToken) {
@@ -20,5 +21,3 @@ function enduredAuthentication(request, response, next) {
     throw new Error(err.message);
   }
 }
-
-module.exports = enduredAuthentication;

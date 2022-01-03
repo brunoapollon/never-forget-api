@@ -1,11 +1,11 @@
-const mongoose = require('../database');
-const uuid = require('uuid');
+import { v4 } from 'uuid';
+import { mongoose } from '../database';
 
 const NotificatoinSchema = new mongoose.Schema({
   id: {
     type: String,
     unique: true,
-    default: uuid.v4(),
+    default: v4(),
   },
   titlte: {
     type: String,
@@ -40,4 +40,4 @@ const NotificatoinSchema = new mongoose.Schema({
 
 const Notification = mongoose.model('Notification', NotificatoinSchema);
 
-module.exports = Notification;
+export { Notification };

@@ -1,8 +1,13 @@
-const { Router } = require('express');
+import { Router } from 'express';
 
-const notificationController = require('../controllers/NotificationController');
-const updateStatusNotificationController = require('../controllers/UpdateStatusNotificationController');
-const ensuredAuthentication = require('../middlewares/enduredAuthentication');
+import NotificationController from '../controllers/NotificationController';
+import UpdateStatusNotificationController from '../controllers/UpdateStatusNotificationController';
+
+import ensuredAuthentication from '../middlewares/enduredAuthentication';
+
+const notificationController = new NotificationController();
+const updateStatusNotificationController =
+  new UpdateStatusNotificationController();
 
 const notificationRouter = Router();
 
@@ -18,4 +23,4 @@ notificationRouter.patch(
   updateStatusNotificationController.update,
 );
 
-module.exports = notificationRouter;
+export { notificationRouter };

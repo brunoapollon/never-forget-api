@@ -1,7 +1,7 @@
-const { hash } = require('bcryptjs');
-const User = require('../models/User');
+import { hash } from 'bcryptjs';
+import { User } from '../models/User';
 
-module.exports = {
+export default class UserController {
   async store(request, response) {
     const { name, email, password } = request.body;
     const passwordHashed = await hash(password, 8);
@@ -11,7 +11,8 @@ module.exports = {
     } catch (err) {
       return response.status(400).json({ error: err.message });
     }
-  },
+  }
+
   async show(request, response) {
     const { user_id } = request;
 
@@ -22,7 +23,8 @@ module.exports = {
     } catch (err) {
       throw new Error('failed to show data');
     }
-  },
+  }
+
   async update(request, response) {
     const { user_id } = request;
     const { name, email, password } = request.body;
@@ -42,5 +44,5 @@ module.exports = {
     } catch (err) {
       throw new Error('failed to update');
     }
-  },
-};
+  }
+}

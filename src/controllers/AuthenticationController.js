@@ -1,10 +1,10 @@
-const { sign } = require('jsonwebtoken');
-const { compare } = require('bcryptjs');
+import { sign } from 'jsonwebtoken';
+import { compare } from 'bcryptjs';
 
-const authConfig = require('../configs/authConfig');
-const User = require('../models/User');
+import authConfig from '../configs/authConfig';
+import { User } from '../models/User';
 
-module.exports = {
+export default class AuthenticationController {
   async store(request, response) {
     const { email, password } = request.body;
 
@@ -13,9 +13,7 @@ module.exports = {
         throw new Error('Validation failed');
       }
 
-      const findUser = await User.findOne({ email: email })
-        .select('+password')
-        .exec();
+      const findUser = await User.findOne({ email }).select('+password').exec();
 
       if (!findUser) {
         throw new Error('email or password does not match');
@@ -44,5 +42,5 @@ module.exports = {
     } catch (err) {
       throw new Error('failed to authentication');
     }
-  },
-};
+  }
+}

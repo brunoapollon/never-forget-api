@@ -1,11 +1,11 @@
-const mongoose = require('../database');
-const uuid = require('uuid');
+import { v4 } from 'uuid';
+import { mongoose } from '../database';
 
 const TaskSchema = new mongoose.Schema({
   id: {
     type: String,
     unique: true,
-    default: uuid.v4(),
+    default: v4(),
   },
   titlte: {
     type: String,
@@ -43,4 +43,4 @@ const TaskSchema = new mongoose.Schema({
 
 const Task = mongoose.model('Task', TaskSchema);
 
-module.exports = Task;
+export { Task };

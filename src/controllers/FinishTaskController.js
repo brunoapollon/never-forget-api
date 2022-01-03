@@ -1,6 +1,6 @@
-const Task = require('../models/Task');
+import { Task } from '../models/Task';
 
-module.exports = {
+export default class FinishTaskController {
   async update(request, response) {
     const { task_id } = request.params;
 
@@ -13,5 +13,5 @@ module.exports = {
     if (!taskUpdate) throw new Error('Task not found');
 
     return response.status(200).json({ message: 'Update successfully' });
-  },
-};
+  }
+}

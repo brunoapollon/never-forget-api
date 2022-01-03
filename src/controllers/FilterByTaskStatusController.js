@@ -1,24 +1,24 @@
-const Task = require('../models/Task');
+import { Task } from '../models/Task';
 
-module.exports = {
+export default class FilterByTaskStatusController {
   async index(request, response) {
     const { statusCode } = request.params;
     const { user_id } = request;
 
     let status = '';
 
-    if (statusCode == 1) {
+    if (statusCode === 1) {
       status = 'no urgency';
-    } else if (statusCode == 2) {
+    } else if (statusCode === 2) {
       status = 'close';
-    } else if (statusCode == 3) {
+    } else if (statusCode === 3) {
       status = 'urgency';
-    } else if (statusCode == 4) {
+    } else if (statusCode === 4) {
       status = 'expires';
     }
 
     const filterTasks = await Task.find({ status, user_id });
 
     return response.status(200).json(filterTasks);
-  },
-};
+  }
+}

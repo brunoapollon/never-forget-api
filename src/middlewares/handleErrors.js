@@ -1,4 +1,4 @@
-require('express-async-errors');
+import 'express-async-errors';
 
 function handleErros(err, request, response, next) {
   if (err instanceof Error) {
@@ -9,4 +9,4 @@ function handleErros(err, request, response, next) {
     .json({ status: 'error', messgae: 'Internal server error' });
 }
 
-module.exports = handleErros;
+export { handleErros };

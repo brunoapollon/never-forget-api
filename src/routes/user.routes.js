@@ -1,11 +1,14 @@
-const { Router } = require('express');
+import { Router } from 'express';
 
-const userController = require('../controllers/UserController');
-const AuthenticationController = require('../controllers/AuthenticationController');
+import UserController from '../controllers/UserController';
+import AuthenticationController from '../controllers/AuthenticationController';
 
-const ensuredAuthentication = require('../middlewares/enduredAuthentication');
+import ensuredAuthentication from '../middlewares/enduredAuthentication';
 
 const userRouter = Router();
+
+const userController = new UserController();
+const authenticationController = new AuthenticationController();
 
 userRouter.post('/', userController.store);
 
@@ -13,6 +16,6 @@ userRouter.get('/', ensuredAuthentication, userController.show);
 
 userRouter.patch('/update', ensuredAuthentication, userController.update);
 
-userRouter.post('/authentication', AuthenticationController.store);
+userRouter.post('/authentication', authenticationController.store);
 
-module.exports = userRouter;
+export { userRouter };

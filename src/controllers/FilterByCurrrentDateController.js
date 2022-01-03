@@ -1,17 +1,10 @@
-const Task = require('../models/Task');
+import { Task } from '../models/Task';
 
-module.exports = {
+export default class FilterByCurrrentDateController {
   async index(request, response) {
     const { user_id } = request;
 
     const currentDate = new Date();
-
-    const dataFormatted =
-      currentDate.getFullYear() +
-      '-' +
-      currentDate.getMonth() +
-      '-' +
-      currentDate.getDate();
 
     const allTasks = await Task.find({ user_id });
 
@@ -23,5 +16,5 @@ module.exports = {
     );
 
     return response.json(filterTasks);
-  },
-};
+  }
+}

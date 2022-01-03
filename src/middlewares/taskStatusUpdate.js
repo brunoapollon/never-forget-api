@@ -1,11 +1,14 @@
-const Task = require('../models/Task');
-const Notification = require('../models/Notification');
-const { io } = require('../app');
+import { Task } from '../models/Task';
+import { Notification } from '../models/Notification';
+
+import { io } from '../app';
 
 async function taskStatusUpdate(request, response, next) {
   const { user_id } = request;
 
   const tasks = await Task.find({ user_id });
+
+  let notification = {};
 
   tasks.map(async task => {
     const taskWithNotification = await Notification.find({
@@ -15,7 +18,7 @@ async function taskStatusUpdate(request, response, next) {
 
     let difference = task.deadline.getTime() - currentDate.getTime();
 
-    difference = difference / (1000 * 60 * 60);
+    difference /= 1000 * 60 * 60;
 
     if (difference > 5) {
       await Task.collection.updateOne(
@@ -30,13 +33,14 @@ async function taskStatusUpdate(request, response, next) {
         { id: task.id },
         { $set: { status: 'close' }, $currentDate: { updatedAt: true } },
       );
-      if (taskWithNotification.length === 0)
-        await Notification.create({
+      if (taskWithNotification.length === 0) {
+        notification = await Notification.create({
           title: 'Tarefa próxima',
           description: 'Você tem atividades proximas, clique para vizualizar!',
-          user_id: user_id,
+          user_id,
           task_id: task.id,
         });
+      }
     } else if (difference > 0 && difference < 1) {
       await Task.collection.updateOne(
         { id: task.id },
@@ -46,11 +50,11 @@ async function taskStatusUpdate(request, response, next) {
         },
       );
       if (taskWithNotification.length >= 0) {
-        const notification = await Notification.create({
+        notification = await Notification.create({
           title: 'Tarefa com urgência',
           description:
             'Você tem atividades que estão perto de expirar, clique para vizualizar!',
-          user_id: user_id,
+          user_id,
           task_id: task.id,
         });
 
@@ -70,4 +74,4 @@ async function taskStatusUpdate(request, response, next) {
   return next();
 }
 
-module.exports = taskStatusUpdate;
+export { taskStatusUpdate };

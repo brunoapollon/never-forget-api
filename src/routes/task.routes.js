@@ -1,48 +1,53 @@
-const { Router } = require('express');
+import { Router } from 'express';
 
-const TaskController = require('../controllers/TaskController');
-const FilterByCurrrentDateController = require('../controllers/FilterByCurrrentDateController');
-const FinishTaskController = require('../controllers/FinishTaskController');
-const FilterByTaskStatusController = require('../controllers/FilterByTaskStatusController');
+import TaskController from '../controllers/TaskController';
+import FilterByCurrrentDateController from '../controllers/FilterByCurrrentDateController';
+import FinishTaskController from '../controllers/FinishTaskController';
+import FilterByTaskStatusController from '../controllers/FilterByTaskStatusController';
 
-const ensuredAuthentication = require('../middlewares/enduredAuthentication');
-const taskStatusUpdate = require('../middlewares/taskStatusUpdate');
+import ensuredAuthentication from '../middlewares/enduredAuthentication';
+import { taskStatusUpdate } from '../middlewares/taskStatusUpdate';
 
 const taskRouter = Router();
 
-taskRouter.post('/', ensuredAuthentication, TaskController.store);
+const taskController = new TaskController();
+const filterByCurrrentDateController = new FilterByCurrrentDateController();
+const finishTaskController = new FinishTaskController();
+const filterByTaskStatusController = new FilterByTaskStatusController();
+
+taskRouter.post('/', ensuredAuthentication, taskController.store);
 
 taskRouter.post(
   '/finished/:task_id',
   ensuredAuthentication,
-  FinishTaskController.update,
+  finishTaskController.update,
 );
 
 taskRouter.get(
   '/allTasks',
   ensuredAuthentication,
   taskStatusUpdate,
-  TaskController.index,
+  taskController.index,
 );
 taskRouter.get(
   '/showTask/:task_id',
   ensuredAuthentication,
   taskStatusUpdate,
-  TaskController.show,
+  taskController.show,
 );
 
 taskRouter.get(
   '/currentTasks',
   ensuredAuthentication,
   taskStatusUpdate,
-  FilterByCurrrentDateController.index,
+  filterByCurrrentDateController.index,
 );
 
 taskRouter.get(
   '/filterByStatus/:statusCode',
   ensuredAuthentication,
   taskStatusUpdate,
-  FilterByTaskStatusController.index,
+  filterByTaskStatusController.index,
 );
 
-module.exports = taskRouter;
+export { taskRouter };

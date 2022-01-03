@@ -1,6 +1,6 @@
-const Notification = require('../models/Notification');
+import { Notification } from '../models/Notification';
 
-module.exports = {
+export default class UpdateStatusNotificationController {
   async update(request, response) {
     const { notification_id } = request.params;
 
@@ -12,5 +12,5 @@ module.exports = {
     return response
       .status(200)
       .json({ message: 'Successfully updated notification' });
-  },
-};
+  }
+}

@@ -1,11 +1,11 @@
-const mongoose = require('../database');
-const uuid = require('uuid');
+import { v4 } from 'uuid';
+import { mongoose } from '../database';
 
 const UserSchema = new mongoose.Schema({
   id: {
     type: String,
     unique: true,
-    default: uuid.v4(),
+    default: v4(),
   },
   name: {
     type: String,
@@ -33,4 +33,4 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', UserSchema);
 
-module.exports = User;
+export { User };

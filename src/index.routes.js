@@ -1,8 +1,8 @@
-const { Router } = require('express');
+import { Router } from 'express';
 
-const userRouter = require('./routes/user.routes');
-const taskRouter = require('./routes/task.routes');
-const notificationRouter = require('./routes/notification.routes');
+import { userRouter } from './routes/user.routes';
+import { taskRouter } from './routes/task.routes';
+import { notificationRouter } from './routes/notification.routes';
 
 const routes = Router();
 
@@ -10,4 +10,4 @@ routes.use('/users', userRouter);
 routes.use('/tasks', taskRouter);
 routes.use('/notifications', notificationRouter);
 
-module.exports = routes;
+export default routes;
