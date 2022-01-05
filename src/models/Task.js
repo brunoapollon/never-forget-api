@@ -7,7 +7,7 @@ const TaskSchema = new mongoose.Schema({
     unique: true,
     default: v4(),
   },
-  titlte: {
+  title: {
     type: String,
     requiered: true,
   },

@@ -23,12 +23,20 @@ taskRouter.post(
   finishTaskController.update,
 );
 
+taskRouter.patch(
+  '/update/:task_id',
+  ensuredAuthentication,
+  taskStatusUpdate,
+  taskController.update,
+);
+
 taskRouter.get(
   '/allTasks',
   ensuredAuthentication,
   taskStatusUpdate,
   taskController.index,
 );
+
 taskRouter.get(
   '/showTask/:task_id',
   ensuredAuthentication,
