@@ -17,7 +17,7 @@ const filterByTaskStatusController = new FilterByTaskStatusController();
 
 taskRouter.post('/', ensuredAuthentication, taskController.store);
 
-taskRouter.post(
+taskRouter.put(
   '/finished/:task_id',
   ensuredAuthentication,
   finishTaskController.update,
