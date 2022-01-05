@@ -27,20 +27,16 @@ export default class UserController {
 
   async update(request, response) {
     const { user_id } = request;
-    const { name, email, password } = request.body;
+    const { name, email } = request.body;
     try {
-      let passwordhash;
-      if (password) {
-        passwordhash = await hash(password, 8);
-      }
-      await User.findOneAndUpdate(
+      const userUpdated = await User.findOneAndUpdate(
         { id: user_id },
-        { name, email, password: passwordhash },
+        { name, email },
         {
           new: true,
         },
       );
-      return response.status(200).json({ message: 'updated successfully' });
+      return response.status(200).json(userUpdated);
     } catch (err) {
       throw new Error('failed to update');
     }
