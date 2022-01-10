@@ -10,7 +10,7 @@ export default class UpdatePasswordController {
       .select('+password')
       .exec();
 
-    const comparePassword = await compare(findUser.password, oldPassword);
+    const comparePassword = await compare(oldPassword, findUser.password);
 
     if (!comparePassword) throw new Error('old password is wrong!');
 
