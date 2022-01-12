@@ -1,3 +1,4 @@
+import { AppError } from '../errors/AppError';
 import { Task } from '../models/Task';
 
 export default class FinishTaskController {
@@ -10,8 +11,8 @@ export default class FinishTaskController {
       { new: true },
     );
 
-    if (!taskUpdate) throw new Error('Task not found');
+    if (!taskUpdate) throw new AppError('Task not found', 404);
 
-    return response.status(200).json({ message: 'Update successfully' });
+    return response.status(201).json({ message: 'Update successfully' });
   }
 }

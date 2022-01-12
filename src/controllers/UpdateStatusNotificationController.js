@@ -10,7 +10,7 @@ export default class UpdateStatusNotificationController {
     );
 
     return response
-      .status(200)
+      .status(201)
       .json({ message: 'Successfully updated notification' });
   }
 }

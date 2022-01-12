@@ -19,7 +19,7 @@ export default class UpdatePasswordController {
     await User.findOneAndUpdate({ id: user_id }, { password: passwordHashed });
 
     return response
-      .status(200)
+      .status(201)
       .json({ message: 'Password updated successfully' });
   }
 }

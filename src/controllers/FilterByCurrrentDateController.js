@@ -15,6 +15,6 @@ export default class FilterByCurrrentDateController {
         task.deadline.getDate() === currentDate.getDate(),
     );
 
-    return response.json(filterTasks);
+    return response.status(200).json(filterTasks);
   }
 }

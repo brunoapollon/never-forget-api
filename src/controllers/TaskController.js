@@ -1,5 +1,6 @@
 import { Task } from '../models/Task';
 import { io } from '../app';
+import { AppError } from '../errors/AppError';
 
 export default class TaskController {
   async store(request, response) {
@@ -20,7 +21,7 @@ export default class TaskController {
       } else if (difference > 0 && difference < 1) {
         status = 'urgency';
       } else if (difference <= 0) {
-        throw new Error('invalid date');
+        throw new AppError('invalid date', 400);
       }
 
       const task = await Task.create({
@@ -31,11 +32,13 @@ export default class TaskController {
         status,
       });
 
+      if (!task) throw new AppError('Failed to create task', 400);
+
       io.emit('new_task', task);
 
-      return response.status(200).json(task);
+      return response.status(201).json(task);
     } catch (err) {
-      throw new Error(err.message);
+      throw new AppError(err.message, err.statusCode);
     }
   }
 
@@ -47,7 +50,7 @@ export default class TaskController {
 
       return response.status(200).json(tasks);
     } catch (err) {
-      throw new Error(err.message);
+      throw new AppError(err.message, err.statusCode);
     }
   }
 
@@ -57,9 +60,11 @@ export default class TaskController {
     try {
       const findTask = await Task.findOne({ id: task_id });
 
+      if (!findTask) throw new AppError('Task does not found', 404);
+
       return response.status(200).json(findTask);
     } catch (err) {
-      throw new Error('task not found');
+      throw new AppError(err.message, err.statusCode);
     }
   }
 
@@ -83,7 +88,7 @@ export default class TaskController {
         } else if (difference > 0 && difference < 1) {
           status = 'urgency';
         } else if (difference <= 0) {
-          throw new Error('invalid date');
+          throw new AppError('invalid date', 400);
         }
       }
 
@@ -101,9 +106,9 @@ export default class TaskController {
         },
       );
 
-      return response.status(200).json(taskUpdate);
+      return response.status(201).json(taskUpdate);
     } catch (err) {
-      throw new Error(err.message);
+      throw new AppError(err.message, err.statusCode);
     }
   }
 }

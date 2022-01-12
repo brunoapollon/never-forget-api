@@ -1,4 +1,5 @@
 import { hash } from 'bcryptjs';
+import { AppError } from '../errors/AppError';
 import { User } from '../models/User';
 
 export default class UserController {
@@ -7,9 +8,9 @@ export default class UserController {
     const passwordHashed = await hash(password, 8);
     try {
       const user = await User.create({ name, email, password: passwordHashed });
-      return response.status(200).json(user);
+      return response.status(201).json(user);
     } catch (err) {
-      return response.status(400).json({ error: err.message });
+      throw new AppError(err.message, err.statusCode);
     }
   }
 
@@ -21,7 +22,7 @@ export default class UserController {
 
       return response.status(200).json(findUser);
     } catch (err) {
-      throw new Error('failed to show data');
+      throw new AppError('failed to show data', err.statusCode);
     }
   }
 
@@ -36,9 +37,9 @@ export default class UserController {
           new: true,
         },
       );
-      return response.status(200).json(userUpdated);
+      return response.status(201).json(userUpdated);
     } catch (err) {
-      throw new Error('failed to update');
+      throw new AppError('failed to update', err.statusCode);
     }
   }
 }

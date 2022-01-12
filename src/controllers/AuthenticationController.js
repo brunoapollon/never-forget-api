@@ -3,6 +3,7 @@ import { compare } from 'bcryptjs';
 
 import authConfig from '../configs/authConfig';
 import { User } from '../models/User';
+import { AppError } from '../errors/AppError';
 
 export default class AuthenticationController {
   async store(request, response) {
@@ -10,17 +11,17 @@ export default class AuthenticationController {
 
     try {
       if (!email || !password) {
-        throw new Error('Validation failed');
+        throw new AppError('Validation failed', 400);
       }
 
       const findUser = await User.findOne({ email }).select('+password').exec();
 
       if (!findUser) {
-        throw new Error('email or password does not match');
+        throw new AppError('email or password does not match', 400);
       }
 
       if (!(await compare(password, findUser.password))) {
-        throw new Error('email or password does not match');
+        throw new AppError('email or password does not match', 400);
       }
 
       const user = {
@@ -38,9 +39,9 @@ export default class AuthenticationController {
         expiresIn: authConfig.jwt.expiresIn,
       });
 
-      return response.json({ token, user });
+      return response.status(201).json({ token, user });
     } catch (err) {
-      throw new Error('failed to authentication');
+      throw new AppError(err.message, err.statusCode);
     }
   }
 }
