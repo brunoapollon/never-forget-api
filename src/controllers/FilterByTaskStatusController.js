@@ -2,22 +2,25 @@ import { Task } from '../models/Task';
 
 export default class FilterByTaskStatusController {
   async index(request, response) {
-    const { statusCode } = request.params;
+    const { status_code } = request.params;
     const { user_id } = request;
 
     let status = '';
 
-    if (statusCode === 1) {
+    if (status_code === '1') {
       status = 'no urgency';
-    } else if (statusCode === 2) {
+    }
+    if (status_code === '2') {
       status = 'close';
-    } else if (statusCode === 3) {
+    }
+    if (status_code === '3') {
       status = 'urgency';
-    } else if (statusCode === 4) {
+    }
+    if (status_code === '4') {
       status = 'expires';
     }
 
-    const filterTasks = await Task.find({ status, user_id });
+    const filterTasks = await Task.find({ user_id, status });
 
     return response.status(200).json(filterTasks);
   }

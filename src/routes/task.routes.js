@@ -52,7 +52,7 @@ taskRouter.get(
 );
 
 taskRouter.get(
-  '/filterByStatus/:statusCode',
+  '/filterByStatus/:status_code',
   ensuredAuthentication,
   taskStatusUpdate,
   filterByTaskStatusController.index,
