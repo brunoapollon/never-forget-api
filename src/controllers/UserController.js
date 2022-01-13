@@ -1,8 +1,6 @@
 import { hash } from 'bcryptjs';
 import { AppError } from '../errors/AppError';
 import { User } from '../models/User';
-import { Task } from '../models/Task';
-import { Notification } from '../models/Notification';
 
 export default class UserController {
   async store(request, response) {
@@ -42,24 +40,6 @@ export default class UserController {
       return response.status(201).json(userUpdated);
     } catch (err) {
       throw new AppError('failed to update', err.statusCode);
-    }
-  }
-
-  async delete(request, response) {
-    const { user_id } = request;
-
-    try {
-      await Notification.deleteMany({ user_id });
-
-      await Task.deleteMany({ user_id });
-
-      await User.deleteOne({ id: user_id });
-
-      return response
-        .status(200)
-        .json({ message: 'account deleted successfully' });
-    } catch (err) {
-      throw new AppError(err.message, 400);
     }
   }
 }
