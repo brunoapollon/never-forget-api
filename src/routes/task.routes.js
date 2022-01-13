@@ -58,4 +58,10 @@ taskRouter.get(
   filterByTaskStatusController.index,
 );
 
+taskRouter.delete(
+  '/delete_task/:task_id',
+  ensuredAuthentication,
+  taskController.delete,
+);
+
 export { taskRouter };

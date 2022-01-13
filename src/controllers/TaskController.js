@@ -111,4 +111,19 @@ export default class TaskController {
       throw new AppError(err.message, err.statusCode);
     }
   }
+
+  async delete(request, response) {
+    const { user_id } = request;
+    const { task_id } = request.params;
+
+    try {
+      await Task.deleteOne({ id: task_id, user_id });
+
+      return response
+        .status(200)
+        .json({ message: 'The task has been deleted' });
+    } catch (err) {
+      throw new AppError(err.message, 400);
+    }
+  }
 }
