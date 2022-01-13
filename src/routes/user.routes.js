@@ -26,4 +26,10 @@ userRouter.put(
 
 userRouter.post('/authentication', authenticationController.store);
 
+userRouter.delete(
+  '/delete_account',
+  ensuredAuthentication,
+  userController.delete,
+);
+
 export { userRouter };
