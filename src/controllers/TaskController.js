@@ -1,4 +1,6 @@
+import { v4 } from 'uuid';
 import { Task } from '../models/Task';
+
 import { io } from '../app';
 import { AppError } from '../errors/AppError';
 
@@ -25,6 +27,7 @@ export default class TaskController {
       }
 
       const task = await Task.create({
+        id: v4(),
         title,
         description,
         deadline,

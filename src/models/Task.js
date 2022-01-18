@@ -1,11 +1,10 @@
-import { v4 } from 'uuid';
 import { mongoose } from '../database';
 
 const TaskSchema = new mongoose.Schema({
   id: {
     type: String,
     unique: true,
-    default: v4(),
+    indexes: true,
   },
   title: {
     type: String,
