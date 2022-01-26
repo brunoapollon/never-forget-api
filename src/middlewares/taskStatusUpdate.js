@@ -36,7 +36,7 @@ async function taskStatusUpdate(request, response, next) {
       if (taskWithNotification.length === 0) {
         notification = await Notification.create({
           title: 'Tarefa próxima',
-          description: 'Você tem atividades proximas, clique para vizualizar!',
+          description: 'Você tem atividades proóximas, clique para visualizar!',
           user_id,
           task_id: task.id,
         });
